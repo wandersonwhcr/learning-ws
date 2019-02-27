@@ -1,9 +1,31 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html>
     <head>
-        <title>Learning WebSockets</title>
+        <title>Socket.IO Chat</title>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     </head>
     <body>
-        Hello, World!
+        <form id="form">
+            <input type="text" name="message">
+            <button type="submit">Send</button>
+        </form>
+        <ul id="messages"></ul>
+        <script type="text/javascript">
+            $(function () {
+                // Initialize
+                var form = $('#form');
+                // Components
+                var inputMessage = form.find('input[name="message"]');
+                // Submit!
+                form.on('submit', function (event) {
+                    // Prevent Default
+                    event.preventDefault();
+                    // TODO Send!
+                    console.log(inputMessage.val());
+                    // Clear Form
+                    form.trigger('reset');
+                });
+            });
+        </script>
     </body>
 </html>
