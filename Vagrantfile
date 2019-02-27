@@ -5,4 +5,8 @@ Vagrant.configure("2") do |config|
         virtualbox.cpus   = 1
         virtualbox.memory = 256
     end
+
+    config.vm.provision "shell" do |shell|
+        shell.path = "vagrant/shell/default.sh"
+    end
 end
