@@ -6,6 +6,8 @@ Vagrant.configure("2") do |config|
         virtualbox.memory = 256
     end
 
+    config.vm.network "forwarded_port", guest: 8000, host: 8000, auto_correct: true
+
     config.vm.provision "shell" do |shell|
         shell.path = "vagrant/shell/default.sh"
     end
