@@ -35,3 +35,23 @@ exec { "apt-get : autoremove":
 package { "linux-headers":
     name => "linux-headers-amd64",
 }
+
+exec { "nodejs : key":
+    unless  => "apt-key finger 68576280 2>/dev/null | grep .",
+    command => "wget -qO- https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -",
+}
+
+file { "nodejs : list":
+    path    => "/etc/apt/sources.list.d/nodejs.list",
+    content => "deb https://deb.nodesource.com/node_11.x stretch main",
+    require => Package["apt-get : https"],
+    before  => Exec["apt-get : update"],
+}
+
+package { "nodejs":
+    name    => "nodejs",
+    require => [
+        File["nodejs : list"],
+        Exec["apt-get : update"],
+    ],
+}
