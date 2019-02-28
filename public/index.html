@@ -3,25 +3,37 @@
     <head>
         <title>Socket.IO Chat</title>
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="/socket.io.js"></script>
     </head>
     <body>
         <form id="form">
             <input type="text" name="message">
             <button type="submit">Send</button>
         </form>
-        <ul id="messages"></ul>
+        <div id="messages">
+            <ul></ul>
+        </div>
         <script type="text/javascript">
             $(function () {
                 // Initialize
-                var form = $('#form');
+                var socket   = io();
+                var form     = $('#form');
+                var messages = $('#messages');
                 // Components
-                var inputMessage = form.find('input[name="message"]');
-                // Submit!
+                var inMessage  = form.find('input[name="message"]');
+                var ctMessages = messages.find('ul');
+
+                // Socket: Message
+                socket.on('message', function (message) {
+                    ctMessages.append($('<li>').text(message));
+                });
+
+                // Form: Submit!
                 form.on('submit', function (event) {
                     // Prevent Default
                     event.preventDefault();
                     // TODO Send!
-                    console.log(inputMessage.val());
+                    socket.emit('message', inMessage.val());
                     // Clear Form
                     form.trigger('reset');
                 });
