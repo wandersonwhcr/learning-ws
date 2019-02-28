@@ -9,9 +9,10 @@
         <form id="form">
             <input type="text" name="message">
             <button type="submit">Send</button>
+            <span class="form-status"></span>
         </form>
         <div id="messages">
-            <ul></ul>
+            <ul class="messages-container"></ul>
         </div>
         <script type="text/javascript">
             $(function () {
@@ -21,11 +22,22 @@
                 var messages = $('#messages');
                 // Components
                 var inMessage  = form.find('input[name="message"]');
-                var ctMessages = messages.find('ul');
+                var ctStatus   = form.find('.form-status');
+                var ctMessages = messages.find('.messages-container');
 
                 // Socket: Message
                 socket.on('message', function (message) {
                     ctMessages.append($('<li>').text(message));
+                });
+
+                // Socket: Connect
+                socket.on('connect', function () {
+                    ctStatus.text('Connected');
+                });
+
+                // Socket: Disconnect
+                socket.on('disconnect', function () {
+                    ctStatus.text('Disconnected');
                 });
 
                 // Form: Submit!
